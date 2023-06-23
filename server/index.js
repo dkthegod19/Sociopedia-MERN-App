@@ -8,12 +8,16 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import {register} from "../controllers/auth.js";
-import authRoutes from "../Routes/auth.js";
-import userRoutes from "../Routes/users.js";
-import postRoutes from "../Routes/posts.js";
-import { verifyToken } from "../middleware/auth.js";
-import { createPost} from "../controllers/posts.js";
+import { register } from "./controllers/auth.js";
+import authRoutes from "./Routes/auth.js";
+import userRoutes from "./Routes/users.js";
+import postRoutes from "./Routes/posts.js";
+import { verifyToken } from "./middleware/auth.js";
+import { createPost} from "./controllers/posts.js";
+import User from "./Models/User.js";
+import Post from "./Models/Post.js";
+import { users, posts } from "./data/index.js";
+
 
 /*Configurations */
 const __filename=fileURLToPath(import.meta.url);
@@ -58,6 +62,10 @@ mongoose.connect(process.env.MONGO_URL,{
     useUnifiedTopology :true,
 }).then(()=>{
     app.listen(port,()=>console.log(`Server Port : ${port}`));
+
+    /* Adding Data one time */
+    // User.insertMany(users);
+    // Post.insertMany(posts);
 }).catch((error) => console.log(`${error} did not connect`));
 
 
